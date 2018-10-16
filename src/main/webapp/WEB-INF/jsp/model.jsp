@@ -80,11 +80,12 @@ button:hover{
 .main-content div:nth-child(1){
     width: 100%;
     height: 540px;
+    display: none;
 }
 .main-content div:nth-child(2){
     width: 100%;
     height: 540px;
-    display: none;
+    
 }
 
 #apply{
@@ -177,20 +178,22 @@ table tbody tr{
         </div>
         <div class="main-content">
             <div id="apply">
-            <form id="form" method="get" >
+            <form id="form" method="get" action="addApply">
             	<ul>
-				<li>申请号:<input  name="id"   type="text"></li>
-				<li>学生名:<input name="name" type="text"></li>
-				<li>课程: <select id="course"><option>请选择课程</option><c:forEach var="course" items="${courselist}"><option>${course.name}</option></c:forEach></select>  </li>
+				<li>申请号:<input  name="id"   type="text" value="${applyid}"></li>
+				<li>学生名:<input name="name" type="text" value="${studentname}"></li>
+				<li>课程: <select id="course" name="course"><option>请选择课程</option><c:forEach var="course" items="${courselist}"><option value="${course.id}">${course.name}</option></c:forEach></select>  </li>
 				<li>老师:  <select class="teacher"><option>请选择老师</option></select> 
-						  <select class="teacher"> <c:forEach var="teacherlist1" items="${teacherlist1}"><option> ${teacherlist1.name}</option></c:forEach> </select> 
-						  <select class="teacher"> <c:forEach var="teacherlist2" items="${teacherlist2}"><option> ${teacherlist2.name}</option></c:forEach> </select> 
-						  <select class="teacher"> <c:forEach var="teacherlist3" items="${teacherlist3}"><option> ${teacherlist3.name}</option></c:forEach> </select>  
+						  <select class="teacher" name="1"> <c:forEach var="teacherlist1" items="${teacherlist1}"><option value="${teacherlist1.id}"> ${teacherlist1.name}</option></c:forEach> </select> 
+						  <select class="teacher" name="2"> <c:forEach var="teacherlist2" items="${teacherlist2}"><option value="${teacherlist2.id}"> ${teacherlist2.name}</option></c:forEach> </select> 
+						  <select class="teacher" name="3"> <c:forEach var="teacherlist3" items="${teacherlist3}"><option value="${teacherlist3.id}"> ${teacherlist3.name}</option></c:forEach> </select>  
 						  </li>
 				<li>
-				教导主任:<select name="manager">
-				<option>教一</option>
-				<option>教二</option>
+				教导主任:<select name="head">
+				<option>请选择教导主任</option>
+				<c:forEach var="head" items="${headlist}">
+				<option value="${head.id}">${head.name}</option>
+				</c:forEach>
 				</select>
 				</li>
 				<li>邮箱:<input name="email" type="text"></li>
@@ -202,13 +205,13 @@ table tbody tr{
             </div>
             <div id="search">
             	
-               <form>
+               <form action="SearchApply">
                	
-               		学生名: <input type="text">
-               		学号: <input type="text">	
-               		老师名: <select>  </select>
-               		课程名:	<select>  </select>
-               		教导主任: <select>  </select></br>
+               		学生名: <input type="text" name="studentname">
+               		学号: <input type="text" name="studentid">	
+               		老师名: <input type="text" name="teachername"><br>
+               		课程名:	<input type="text" name="coursename">
+               		教导主任:<input type="text" name="head"> </br>
                		
                		<input type="submit" value="查询" class="right">
                		
@@ -243,7 +246,7 @@ table tbody tr{
 
 <script>
     window.onload = function(){
-        applyBtn.classList.add("white");
+        searchBtn.classList.add("white");
     }
 
     let applyBtn = document.getElementById("apply-btn");

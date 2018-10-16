@@ -16,7 +16,11 @@ import com.capgemini.demo.bean.Head;
 import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
 import com.capgemini.demo.mapper.CouserMapper;
+import com.capgemini.demo.mapper.HeadMapper;
+import com.capgemini.demo.mapper.StudentMapper;
 import com.capgemini.demo.mapper.TeacherMapper;
+import com.capgemini.demo.service.ApplyService;
+import com.capgemini.demo.service.ApplyServiceImpl;
 import com.capgemini.demo.service.HeadService;
 import com.capgemini.demo.service.HeadServiceImpl;
 import com.capgemini.demo.service.StudentService;
@@ -34,9 +38,17 @@ public class LoginAndRegisterController {
 	@Autowired
 	private TeacherService teacherservice=new TeacherServiceImpl();
 	@Autowired
+	private ApplyService applyservice=new ApplyServiceImpl();
+	@Autowired
 	TeacherMapper teachermapper;
 	@Autowired
 	CouserMapper coursemapper;
+	@Autowired
+	HeadMapper headmapper;
+	@Autowired
+	StudentMapper studentmapper;
+	
+	
 
 	//进入注册界面
 	@RequestMapping(value="register")
@@ -130,7 +142,12 @@ public class LoginAndRegisterController {
 				List<Teacher> teacherlist1=teachermapper.FindByCourseId(1);
 				List<Teacher> teacherlist2=teachermapper.FindByCourseId(2);
 				List<Teacher> teacherlist3=teachermapper.FindByCourseId(3);
-				
+				List<Head> Headlist=headmapper.FindAllHead();
+				String studentname=studentmapper.FindByEmail(name).getName();
+				int applyid=applyservice.CountApply();
+				mv.addObject("applyid", applyid);
+				mv.addObject("studentname", studentname);
+				mv.addObject("headlist", Headlist);
 				mv.addObject("courselist", courselist);
 				mv.addObject("teacherlist1", teacherlist1);
 				mv.addObject("teacherlist2", teacherlist2);

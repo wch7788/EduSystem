@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.capgemini.demo.mapper.ApplyMapper">
+<resultMap type="com.capgemini.demo.bean.Apply" id="ApplyMap">
+<result column="id" property="id" jdbcType="INTEGER"/>
+<result column="studentname" property="studentname" jdbcType="VARCHAR"/>
+<result column="courseid" property="courseid" jdbcType="INTEGER"/>
+<result column="teacherid" property="teacherid" jdbcType="INTEGER"/>
+<result column="headid" property="headid" jdbcType="INTEGER"/>
+<result column="email" property="email" jdbcType="VARCHAR"/>
+<result column="phone" property="phone" jdbcType="VARCHAR"/>
+<result column="studentid" property="studentid" jdbcType="VARCHAR"/>
+<result column="date" property="date" jdbcType="DATE"/>
+<result column="state" property="state" jdbcType="INTEGER"/>
+<result column="headstate" property="headstate" jdbcType="INTEGER"/>
+<result column="teacherstate" property="teacherstate" jdbcType="INTEGER"/>
+
+
+</resultMap>
+
+
+<select id="CountApply" resultType="int">
+SELECT 
+  count(*)
+FROM
+  `edusystem`.`e_apply` 
+</select>
+
+<insert id="addApply" parameterType="com.capgemini.demo.bean.Apply">
+INSERT INTO `edusystem`.`e_apply` (
+  `id`,
+  `studentname`,
+  `courseid`,
+  `teacherid`,
+  `headid`,
+  `email`,
+  `phone`,
+  `studentid`,
+  `date`,
+  `state`,
+  `headstate`,
+  `teacherstate`
+) 
+VALUES
+  (
+    #{id},
+    #{studentname},
+     #{courseid},
+     #{teacherid},
+    #{headid},
+   #{email},
+    #{phone},
+    #{studentid},
+    #{date},
+    #{state},
+   #{headstate},
+     #{teacherstate}
+  ) ;
+
+
+</insert>
+
+<select id="FindApplyBySome" parameterType="com.capgemini.demo.bean.Apply"   resultMap="ApplyMap">
+SELECT 
+  `id`,
+  `studentname`,
+  `courseid`,
+  `teacherid`,
+  `headid`,
+  `email`,
+  `phone`,
+  `studentid`,
+  `date`,
+  `state`,
+  `headstate`,
+  `teacherstate` 
+FROM
+  `edusystem`.`e_apply` 
+<where>
+<if test="studentname!=null">
+`studentname` = #{studentname}
+</if>
+<if test="studentid!=null">
+and  `studentid` =#{studentid}
+</if>
+<if test="teacherid!=null and teacherid!=''">
+ and `teacherid`=#{teacherid}
+</if>
+<if test="courseid!=null and courseid!=''">
+ and `courseid`=#{courseid}
+</if>
+
+<if test="headid!=null and headid!=''">
+ and `headid`=#{headid}
+</if>
+
+</where>
+
+
+</select>
+
+</mapper>

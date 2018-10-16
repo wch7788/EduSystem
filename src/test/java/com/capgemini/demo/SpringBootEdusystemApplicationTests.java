@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.capgemini.demo.bean.Apply;
 import com.capgemini.demo.bean.Head;
 import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
+import com.capgemini.demo.mapper.ApplyMapper;
 import com.capgemini.demo.mapper.CouserMapper;
 import com.capgemini.demo.mapper.HeadMapper;
 import com.capgemini.demo.mapper.StudentMapper;
@@ -26,6 +28,9 @@ public class SpringBootEdusystemApplicationTests {
 	TeacherMapper teachermapper;
 	@Autowired
 	CouserMapper coursemapper;
+	@Autowired
+	ApplyMapper applymapper;
+	
 
 	@Test
 	public void contextLoads() {
@@ -40,7 +45,10 @@ public class SpringBootEdusystemApplicationTests {
 		t.setName("12313");
 		t.setPassword("46548764");
 		teachermapper.addTeacher(t);*/
-		System.out.println(teachermapper.FindByCourseId(1)+""+coursemapper.FinAllCourse());
+		java.sql.Date time= new java.sql.Date(new java.util.Date().getTime());
+
+		Apply a=new Apply(1,"2",2,2,2,"2","2","2",time,0,0,0);
+		applymapper.addApply(a);
 	}
 	
 }

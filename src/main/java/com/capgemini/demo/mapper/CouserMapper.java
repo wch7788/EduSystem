@@ -10,5 +10,5 @@ import com.capgemini.demo.bean.Course;
 public interface CouserMapper {
 	
 	public List<Course> FinAllCourse();
-                     
+    public Course FindByName(String name);
 }

@@ -47,5 +47,18 @@ FROM
 
 </select>
 
+<select id="FindByName" parameterType="String" resultMap="HeadMap">
+SELECT 
+  `id`,
+  `name`,
+  `password`,
+  `email` 
+FROM
+  `edusystem`.`e_head` 
+WHERE   `name`=#{name};
+
+
+
+</select>
 
 </mapper>
