@@ -3,6 +3,7 @@ package com.capgemini.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
 import com.capgemini.demo.mapper.TeacherMapper;
 
@@ -31,6 +32,19 @@ public class TeacherServiceImpl implements TeacherService{
 	   
 		int id=teachermapper.CountTeacher()+1;
 		return id;
+	}
+
+	@Override
+	public boolean checklogin(String name, String password) {
+		  if("".equals(name)||name==null){return false;}
+          if("".equals(password)||password==null){return false;}
+          Teacher teacher=teachermapper.FindByEmail(name);
+		    if(teacher==null){return false;}
+		    if(password.equals(teacher.getPassword())){
+		    	return true;
+		    	}else{
+		    		return false;
+		    	}
 	}
 
 }

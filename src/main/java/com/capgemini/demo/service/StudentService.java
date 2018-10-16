@@ -10,4 +10,6 @@ public interface StudentService {
 
 	int AutoID();
 
+	boolean checklogin(String name, String password);
+
 }

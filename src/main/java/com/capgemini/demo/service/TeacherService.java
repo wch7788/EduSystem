@@ -11,4 +11,6 @@ public interface TeacherService {
 
 	int AutoID();
 	
+	boolean checklogin(String name, String password);
+
 }

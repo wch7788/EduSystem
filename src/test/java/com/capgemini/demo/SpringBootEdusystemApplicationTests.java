@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.capgemini.demo.bean.Head;
 import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
+import com.capgemini.demo.mapper.CouserMapper;
 import com.capgemini.demo.mapper.HeadMapper;
 import com.capgemini.demo.mapper.StudentMapper;
 import com.capgemini.demo.mapper.TeacherMapper;
@@ -23,6 +24,8 @@ public class SpringBootEdusystemApplicationTests {
 	HeadMapper headmapper;
 	@Autowired
 	TeacherMapper teachermapper;
+	@Autowired
+	CouserMapper coursemapper;
 
 	@Test
 	public void contextLoads() {
@@ -37,7 +40,7 @@ public class SpringBootEdusystemApplicationTests {
 		t.setName("12313");
 		t.setPassword("46548764");
 		teachermapper.addTeacher(t);*/
-		System.out.println(studentmapper.FindByEmail("测试邮箱").getName()+headmapper.FindByEmail("777").getName()+teachermapper.FindByEmail("222"));
+		System.out.println(teachermapper.FindByCourseId(1)+""+coursemapper.FinAllCourse());
 	}
 	
 }

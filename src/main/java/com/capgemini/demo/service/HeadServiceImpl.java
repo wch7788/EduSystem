@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.demo.bean.Head;
+import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.mapper.HeadMapper;
 
 @Repository("HeadService")
@@ -30,6 +31,19 @@ public class HeadServiceImpl implements HeadService{
 	public int AutoID() {
 		int id=headmapper.CountHead()+1;
 		return id;
+	}
+
+	@Override
+	public boolean checklogin(String name, String password) {
+		  if("".equals(name)||name==null){return false;}
+          if("".equals(password)||password==null){return false;}
+          Head head=headmapper.FindByEmail(name);
+		    if(head==null){return false;}
+		    if(password.equals(head.getPassword())){
+		    	return true;
+		    	}else{
+		    		return false;
+		    	}
 	}
 	
 

@@ -78,7 +78,7 @@
 		</div>
 		
 		<div class="content">
-			<form action="confirmregister">
+			<form action="confirmregister" method="post">
 				<input type="radio" class="stu" name="one" value="student">学生<input type="radio" class="tea" name="one" value="teacher">老师
 				<input type="radio" class="stu" name="one" value="head">教导主任
 				<p><label>用户名</label> <input type="text" name="username"></p>
@@ -99,6 +99,8 @@
 </body>
 
 <script>
+      
+	
 	
 	$(".tea").change(function(e){
 		$(".course").css("display","block")

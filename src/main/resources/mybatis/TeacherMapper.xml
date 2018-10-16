@@ -45,9 +45,21 @@ SELECT
 FROM
   `edusystem`.`e_teacher` 
     WHERE `email`=#{email};
+  </select>
   
-
-
-</select>
+  
+  <select id="FindByCourseId" parameterType="int" resultMap="TeacherMap">
+  SELECT 
+  `id`,
+  `name`,
+  `email`,
+  `password`,
+  `courseid` 
+FROM
+  `edusystem`.`e_teacher` 
+    WHERE `courseid`=#{courseid};
+  
+  
+  </select>
 
 </mapper>

@@ -1,15 +1,22 @@
 package com.capgemini.demo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.capgemini.demo.bean.Course;
 import com.capgemini.demo.bean.Head;
 import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
+import com.capgemini.demo.mapper.CouserMapper;
+import com.capgemini.demo.mapper.TeacherMapper;
 import com.capgemini.demo.service.HeadService;
 import com.capgemini.demo.service.HeadServiceImpl;
 import com.capgemini.demo.service.StudentService;
@@ -26,10 +33,15 @@ public class LoginAndRegisterController {
 	private HeadService headservice=new HeadServiceImpl();
 	@Autowired
 	private TeacherService teacherservice=new TeacherServiceImpl();
+	@Autowired
+	TeacherMapper teachermapper;
+	@Autowired
+	CouserMapper coursemapper;
 
 	//进入注册界面
 	@RequestMapping(value="register")
-	public String Register(){
+	public String Register(HttpServletRequest request,HttpServletResponse response,HttpServletRequest httprequest){
+        httprequest.setAttribute("warn", "登陆失败");   
 		return "register";
 	}
 	
@@ -89,14 +101,14 @@ public class LoginAndRegisterController {
 				return "login";
 			}
 			System.out.println("注册失败");
-			return "register";
+			return "login";
 			
 			
 		}
 		
 		
 		
-		return "register";
+		return "login";
 		
 		
 		
@@ -104,8 +116,63 @@ public class LoginAndRegisterController {
 	
 	//登录成功后进入主页面
 	@RequestMapping(value="confirmlogin")
-	public String ConfirmLogin(){
+	public ModelAndView ConfirmLogin(HttpServletRequest request,HttpServletResponse response,HttpSession session){
 		
-		return "index";
+		String name=request.getParameter("email");
+		String password=request.getParameter("password");
+		String radioname=request.getParameter("one");
+		if("student".equals(radioname)){
+			if(studentservice.checklogin(name,password)){
+				System.out.println("登录成功");
+				
+				ModelAndView mv=new ModelAndView();
+				List<Course> courselist=coursemapper.FinAllCourse();
+				List<Teacher> teacherlist1=teachermapper.FindByCourseId(1);
+				List<Teacher> teacherlist2=teachermapper.FindByCourseId(2);
+				List<Teacher> teacherlist3=teachermapper.FindByCourseId(3);
+				
+				mv.addObject("courselist", courselist);
+				mv.addObject("teacherlist1", teacherlist1);
+				mv.addObject("teacherlist2", teacherlist2);
+				mv.addObject("teacherlist3", teacherlist3);
+				mv.setViewName("model");
+				System.out.println(teacherlist1);
+				return mv;
+			}else{
+				System.out.println("登录失败");
+				return new ModelAndView("login");
+			}
+			
+		}
+		
+		if("teacher".equals(radioname)){
+			if(teacherservice.checklogin(name,password)){
+				System.out.println("登录成功");
+				return new ModelAndView("index");
+			}else{
+				System.out.println("登录失败");
+				return new ModelAndView("login");
+			}
+			
+		}
+		
+		
+		if("head".equals(radioname)){
+			if(headservice.checklogin(name,password)){
+				System.out.println("登录成功");
+				return new ModelAndView("index");
+			}else{
+				System.out.println("登录失败");
+				return new ModelAndView("login");
+			}
+			
+		}
+		
+		System.out.println("登录失败");
+		return null;
+		
+		
+	
+		
 	}
 }

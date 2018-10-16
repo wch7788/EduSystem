@@ -42,7 +42,7 @@
 	    height: 40px  ;
 	    line-height: 40px ;
 	    box-sizing: border-box ;
-	    color: #fff ;
+	    
 	    border: 0 ;
 	    border-radius: 4px ;
 	    vertical-align:middle ;
@@ -65,11 +65,11 @@
 		
 		
 		<div class="content">
-		<form action="login">
+		<form action="confirmlogin">
 		<input type="radio" class="stu" name="one" value="student">学生<input type="radio" class="tea" name="one" value="teacher">老师
-		  <input type="radio" class="stu" name="one" value="head">教导主任
-			<p><label>用户名: </label><input type="text" name="name"></p>
-			<p><label>密码: </label><input type="password" name="password"></p>
+		 <input type="radio" class="stu" name="one" value="head">教导主任
+			<p><label>用户名: </label><input type="text" name="email" placeHolder="请输入邮箱"></p>
+			<p><label>密码: </label><input type="password" name="password" placeHolder="请输入密码"></p>
 			<p><input type="submit" value="登陆"></p>
 		</form>
 		</div>

@@ -10,4 +10,7 @@ public interface HeadService {
 	void addHead(Head head);
 
 	int AutoID();
+
+	boolean checklogin(String name, String password);
+
 }

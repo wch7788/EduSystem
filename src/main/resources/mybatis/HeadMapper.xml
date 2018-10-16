@@ -36,4 +36,16 @@ FROM
 </select>
 
 
+<select id="FindAllHead" resultMap="HeadMap">
+SELECT 
+  `id`,
+  `name`,
+  `password`,
+  `email` 
+FROM
+  `edusystem`.`e_head` 
+
+</select>
+
+
 </mapper>

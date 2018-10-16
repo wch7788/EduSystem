@@ -11,4 +11,5 @@ public interface HeadMapper {
 
 	int CountHead();
    public Head FindByEmail(String email);
+   public Head FindAllHead();
 }
