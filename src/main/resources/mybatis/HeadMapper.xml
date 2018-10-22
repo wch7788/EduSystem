@@ -57,7 +57,17 @@ FROM
   `edusystem`.`e_head` 
 WHERE   `name`=#{name};
 
+</select>
 
+<select id="FindById" parameterType="int" resultMap="HeadMap">
+SELECT 
+  `id`,
+  `name`,
+  `password`,
+  `email` 
+FROM
+  `edusystem`.`e_head` 
+  WHERE id=#{id}
 
 </select>
 

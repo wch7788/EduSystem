@@ -15,6 +15,10 @@ public class Apply {
 	private int state;
 	private int headstate;
 	private int teacherstate;
+	private Course course;
+	private Teacher teacher;
+	private Head head;
+	
 	public Apply(int id, String studentname, int courseid, int teacherid, int headid, String email, String studentid,String phone,
 			Date date, int state, int headstate, int teacherstate) {
 		super();
@@ -105,6 +109,24 @@ public class Apply {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public Course getCourse() {
+		return course;
+	}
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+	public Teacher getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+	public Head getHead() {
+		return head;
+	}
+	public void setHead(Head head) {
+		this.head = head;
 	}
 	
 	

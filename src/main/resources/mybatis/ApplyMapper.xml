@@ -14,7 +14,9 @@
 <result column="state" property="state" jdbcType="INTEGER"/>
 <result column="headstate" property="headstate" jdbcType="INTEGER"/>
 <result column="teacherstate" property="teacherstate" jdbcType="INTEGER"/>
-
+<association property="course" column="courseid" select="com.capgemini.demo.mapper.CouserMapper.FindByID"></association>
+<association property="teacher" column="teacherid" select="com.capgemini.demo.mapper.TeacherMapper.FindById"></association>
+<association property="head" column="headid" select="com.capgemini.demo.mapper.HeadMapper.FindById"></association>
 
 </resultMap>
 
@@ -93,10 +95,141 @@ and  `studentid` =#{studentid}
 <if test="headid!=null and headid!=''">
  and `headid`=#{headid}
 </if>
-
 </where>
+</select>
+
+ <select id="FindApplyByTeacherid" parameterType="int" resultMap="ApplyMap">
+SELECT 
+  `id`,
+  `studentname`,
+  `courseid`,
+  `teacherid`,
+  `headid`,
+  `email`,
+  `phone`,
+  `studentid`,
+  `date`,
+  `state`,
+  `headstate`,
+  `teacherstate` 
+FROM
+  `edusystem`.`e_apply` 
+  WHERE teacherid=${id} and teacherstate=0 and state!=3;
+</select>
+
+
+<select id="FindApplyByHeadid" parameterType="int" resultMap="ApplyMap">
+SELECT 
+  `id`,
+  `studentname`,
+  `courseid`,
+  `teacherid`,
+  `headid`,
+  `email`,
+  `phone`,
+  `studentid`,
+  `date`,
+  `state`,
+  `headstate`,
+  `teacherstate` 
+FROM
+  `edusystem`.`e_apply` 
+  WHERE headid=${id} and headstate=0 and state!=3;
 
 
 </select>
+
+
+<select id="FindApplyByApllyId" parameterType="int" resultMap="ApplyMap">
+SELECT 
+  `id`,
+  `studentname`,
+  `courseid`,
+  `teacherid`,
+  `headid`,
+  `email`,
+  `phone`,
+  `studentid`,
+  `date`,
+  `state`,
+  `headstate`,
+  `teacherstate` 
+FROM
+  `edusystem`.`e_apply` 
+  WHERE id=#{applyid};
+
+
+</select>
+ 
+ <update id="TeacherApproveAndHeadApprove" parameterType="int">
+ UPDATE 
+  `edusystem`.`e_apply` 
+SET
+  
+  `state` = 2,
+  `teacherstate` = 1 
+WHERE `id` = #{applyid} ;
+ 
+ 
+ </update>
+ 
+ 
+  
+ <update id="HeadApproveAndTeacherApprove" parameterType="int">
+ UPDATE 
+  `edusystem`.`e_apply` 
+SET
+  
+  `state` = 2,
+  `headstate` = 1 
+WHERE `id` = #{applyid} ;
+ 
+ 
+ </update>
+ 
+ 
+ 
+ 
+ 
+ <update id="TeacherApprove" parameterType="int">
+ 
+  UPDATE 
+  `edusystem`.`e_apply` 
+SET
+  
+  `state` = 1,
+  `teacherstate` = 1 
+WHERE `id` = #{applyid} ;
+ 
+ 
+ </update>
+ 
+ 
+  <update id="HeadApprove" parameterType="int">
+ 
+  UPDATE 
+  `edusystem`.`e_apply` 
+SET
+  
+  `state` = 1,
+  `headstate` = 1 
+WHERE `id` = #{applyid} ;
+ 
+ 
+ </update>
+ 
+ <update id="THRejectApply" parameterType="int">
+   UPDATE 
+  `edusystem`.`e_apply` 
+SET
+  
+  `state` = 3,
+   `teacherstate` = 2,
+  `headstate` = 2 
+WHERE `id` = #{applyid} ;
+ 
+ 
+ 
+ </update>
 
 </mapper>

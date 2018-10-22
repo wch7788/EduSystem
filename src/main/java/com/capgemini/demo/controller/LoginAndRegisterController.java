@@ -11,10 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.capgemini.demo.bean.Apply;
 import com.capgemini.demo.bean.Course;
 import com.capgemini.demo.bean.Head;
 import com.capgemini.demo.bean.Student;
 import com.capgemini.demo.bean.Teacher;
+import com.capgemini.demo.mapper.ApplyMapper;
 import com.capgemini.demo.mapper.CouserMapper;
 import com.capgemini.demo.mapper.HeadMapper;
 import com.capgemini.demo.mapper.StudentMapper;
@@ -47,13 +49,21 @@ public class LoginAndRegisterController {
 	HeadMapper headmapper;
 	@Autowired
 	StudentMapper studentmapper;
+	@Autowired
+	ApplyMapper applymapper;
 	
 	
+	
+	@RequestMapping(value="ceshi")
+	public String ceshi(){
+		return "77";
+	}
 
 	//进入注册界面
 	@RequestMapping(value="register")
-	public String Register(HttpServletRequest request,HttpServletResponse response,HttpServletRequest httprequest){
-        httprequest.setAttribute("warn", "登陆失败");   
+	public String Register(HttpServletRequest request,HttpServletResponse response){
+		
+		request.setAttribute("msg", "");
 		return "register";
 	}
 	
@@ -75,10 +85,12 @@ public class LoginAndRegisterController {
 			student.setName(name);
 			if(studentservice.checkRegister(student)){
 				studentservice.addStudent(student);
+				request.setAttribute("msg", "注册成功");
+
 				System.out.println("注册成功");
 				return "login";
 			}
-			
+			request.setAttribute("msg", "注册失败");
 			System.out.println("注册失败");
 			return "register";
 			
@@ -93,9 +105,12 @@ public class LoginAndRegisterController {
 			Head head=new Head(leadid,name,password,email);
 			if(headservice.checkRegister(head)){
 				headservice.addHead(head);
+				request.setAttribute("msg", "注册成功");
+
 				System.out.println("注册成功");
 				return "login";
 			}
+			request.setAttribute("msg", "注册失败");
 			System.out.println("注册失败");
 			return "register";
 		}
@@ -109,27 +124,38 @@ public class LoginAndRegisterController {
 			Teacher tea=new Teacher(teacherid,name,password,email,courseid);
 			if(teacherservice.checkRegister(tea)){
 				teacherservice.addTeacher(tea);
+				request.setAttribute("msg", "注册成功");
+
 				System.out.println("注册成功");
 				return "login";
 			}
+			request.setAttribute("msg", "注册失败");
 			System.out.println("注册失败");
-			return "login";
+			return "register";
 			
 			
 		}
 		
 		
-		
-		return "login";
+		request.setAttribute("msg", "注册失败");
+		return "register";
 		
 		
 		
 	}
 	
+	
+	@RequestMapping(value="login")
+	public String loginin(HttpServletRequest request,HttpServletResponse response){
+		request.setAttribute("msg", "进入登录页面");
+		return "login";
+	}
+	
 	//登录成功后进入主页面
 	@RequestMapping(value="confirmlogin")
-	public ModelAndView ConfirmLogin(HttpServletRequest request,HttpServletResponse response,HttpSession session){
-		
+	public ModelAndView ConfirmLogin(HttpServletRequest request,HttpServletResponse response){
+		HttpSession session=request.getSession();
+
 		String name=request.getParameter("email");
 		String password=request.getParameter("password");
 		String radioname=request.getParameter("one");
@@ -145,17 +171,23 @@ public class LoginAndRegisterController {
 				List<Head> Headlist=headmapper.FindAllHead();
 				String studentname=studentmapper.FindByEmail(name).getName();
 				int applyid=applyservice.CountApply();
-				mv.addObject("applyid", applyid);
-				mv.addObject("studentname", studentname);
-				mv.addObject("headlist", Headlist);
-				mv.addObject("courselist", courselist);
-				mv.addObject("teacherlist1", teacherlist1);
-				mv.addObject("teacherlist2", teacherlist2);
-				mv.addObject("teacherlist3", teacherlist3);
-				mv.setViewName("model");
+				 session=request.getSession();
+				session.setAttribute("applyid", applyid);
+				session.setAttribute("courselist", courselist);
+				session.setAttribute("headlist", Headlist);
+				session.setAttribute("studentname", studentname);
+				session.setAttribute("teacherlist1", teacherlist1);
+				session.setAttribute("teacherlist2", teacherlist2);
+				session.setAttribute("teacherlist3", teacherlist3);
+
+				mv.setViewName("login_success");
+		       
 				System.out.println(teacherlist1);
+				
 				return mv;
 			}else{
+				request.setAttribute("msg", "登录失败");
+
 				System.out.println("登录失败");
 				return new ModelAndView("login");
 			}
@@ -164,9 +196,17 @@ public class LoginAndRegisterController {
 		
 		if("teacher".equals(radioname)){
 			if(teacherservice.checklogin(name,password)){
+				
 				System.out.println("登录成功");
-				return new ModelAndView("index");
+				
+				session.setAttribute("thisuseremail", name);
+				int teacherid=teachermapper.FindByEmail(name).getId();
+				List<Apply> teacherapplylist=applymapper.FindApplyByTeacherid(teacherid);
+				session.setAttribute("role", "教师");
+				session.setAttribute("approvelist",teacherapplylist);
+				return new ModelAndView("login_success_TH");
 			}else{
+				request.setAttribute("msg", "登录失败");
 				System.out.println("登录失败");
 				return new ModelAndView("login");
 			}
@@ -176,9 +216,16 @@ public class LoginAndRegisterController {
 		
 		if("head".equals(radioname)){
 			if(headservice.checklogin(name,password)){
+				session.setAttribute("thisuseremail", name);
+				int headid=headmapper.FindByEmail(name).getId();
+				List<Apply> headapplylist=applymapper.FindApplyByHeadid(headid);
+				session.setAttribute("approvelist",headapplylist);
+				session.setAttribute("role", "主任");
+
 				System.out.println("登录成功");
-				return new ModelAndView("index");
+				return new ModelAndView("login_success_TH");
 			}else{
+				request.setAttribute("msg", "登录失败");
 				System.out.println("登录失败");
 				return new ModelAndView("login");
 			}
@@ -191,5 +238,16 @@ public class LoginAndRegisterController {
 		
 	
 		
+	}
+	
+	@RequestMapping(value="homepage")
+	public String HomePage(){
+		return "model";
+	}
+	
+	
+	@RequestMapping(value="THhomepage")
+	public String THHomePage(){
+		return "review";
 	}
 }

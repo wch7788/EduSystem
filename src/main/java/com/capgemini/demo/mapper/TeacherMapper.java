@@ -16,4 +16,6 @@ public interface TeacherMapper {
 	public List<Teacher> FindByCourseId(int id);
 	
 	public Teacher FindByName(String name);
+	
+	public Teacher FindById(int id);
 }

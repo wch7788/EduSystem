@@ -16,4 +16,6 @@ public interface HeadMapper {
    public List<Head> FindAllHead();
    
    public Head FindByName(String name);
+   
+   public Head FindById(int id);
 }

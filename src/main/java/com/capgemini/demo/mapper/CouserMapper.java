@@ -11,4 +11,5 @@ public interface CouserMapper {
 	
 	public List<Course> FinAllCourse();
     public Course FindByName(String name);
+    public Course FindByID(int id);
 }

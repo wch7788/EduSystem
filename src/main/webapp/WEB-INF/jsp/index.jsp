@@ -21,6 +21,13 @@ $(".teacher").eq(i).show();
 }); 
 $("#course").change(); 
 }); 
+
+
+
+
+
+
+
 </script> 
  </head> 
  <body> 

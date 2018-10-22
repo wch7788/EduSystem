@@ -72,8 +72,19 @@ FROM
 FROM
   `edusystem`.`e_teacher` 
      WHERE `name`=#{name};
-  
-  
   </select>
+
+<select id="FindById" parameterType="int" resultMap="TeacherMap">
+SELECT 
+  `id`,
+  `name`,
+  `email`,
+  `password`,
+  `courseid` 
+FROM
+  `edusystem`.`e_teacher` 
+  WHERE id=#{id}
+
+</select>
 
 </mapper>

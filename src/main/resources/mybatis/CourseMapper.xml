@@ -27,4 +27,14 @@ FROM
 
 </select>
 
+<select id="FindByID" parameterType="int" resultMap="CourseMap">
+SELECT 
+  `id`,
+  `name` 
+FROM
+  `edusystem`.`e_course` 
+  WHERE id=#{id}
+
+</select>
+
 </mapper>
